@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="file:///Users/asier/dev/ai/context-mesh-prototype/producer-payments-docs"
+REPO_URL="https://github.com/asierba/poc-context-mesh-payments-docs.git"
 CACHE_DIR="$HOME/.cache/context-mesh/payments-docs"
 
 if [ -d "$CACHE_DIR/.git" ]; then
