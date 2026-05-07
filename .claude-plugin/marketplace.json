@@ -1,0 +1,19 @@
+{
+  "name": "acme",
+  "owner": {
+    "name": "Acme Platform Team"
+  },
+  "metadata": {
+    "description": "Fetch-context skills for Acme's domain teams.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "acme-docs",
+      "description": "Fetch-context skills for Acme's domain teams. Pulls each team's public docs into a local cache on demand.",
+      "author": { "name": "Acme Platform Team" },
+      "source": "./acme-docs",
+      "category": "documentation"
+    }
+  ]
+}

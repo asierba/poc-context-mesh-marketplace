@@ -1,0 +1,7 @@
+{
+  "name": "acme-docs",
+  "description": "Fetch-context skills for Acme's domain teams. Pulls each team's public docs into a local cache on demand.",
+  "author": {
+    "name": "Acme Platform Team"
+  }
+}
