@@ -4,7 +4,7 @@ A small Claude Code plugin marketplace that demonstrates the **fetch context ski
 
 ## What's in this POC
 
-Four connected repos:
+This marketplace repo, plus one docs repo per team (and one company-wide), each fetched by its own skill:
 
 | Repo | Role |
 |---|---|
@@ -12,6 +12,34 @@ Four connected repos:
 | [`poc-context-mesh-payments-docs`](https://github.com/asierba/poc-context-mesh-payments-docs) | Payments team's docs — fetched by `fetch-payments-docs` |
 | [`poc-context-mesh-checkout`](https://github.com/asierba/poc-context-mesh-checkout) | Checkout team's docs — fetched by `fetch-checkout-docs` |
 | [`poc-context-mesh-tech-standards`](https://github.com/asierba/poc-context-mesh-tech-standards) | Company-wide tech standards (architecture, security, engineering) — fetched by `fetch-tech-standards` |
+
+```mermaid
+flowchart LR
+  claude(["Claude Code"])
+
+  subgraph marketplace["Repo: poc-context-mesh-marketplace"]
+    subgraph plugin["Plugin: acme-docs"]
+      sp["Skill: fetch-payments-docs"]
+      sc["Skill: fetch-checkout-docs"]
+      st["Skill: fetch-tech-standards"]
+    end
+  end
+
+  subgraph github["GitHub"]
+    payments["Repo: poc-context-mesh-payments-docs<br/>(payments team)"]
+    checkout["Repo: poc-context-mesh-checkout<br/>(checkout team)"]
+    standards["Repo: poc-context-mesh-tech-standards<br/>(company-wide)"]
+  end
+
+  cache[("Local clones<br/>~/.cache/context-mesh/&lt;repo-name&gt;")]
+
+  claude -- "1. picks skill by description" --> plugin
+  sp -- "2. clone / pull" --> payments
+  sc -- "2. clone / pull" --> checkout
+  st -- "2. clone / pull" --> standards
+  github -- "into" --> cache
+  claude -- "3. reads docs & code, cites files" --> cache
+```
 
 ## Try it
 
