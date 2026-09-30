@@ -29,7 +29,7 @@ Four connected repos:
 
 3. **Start a fresh session** in any directory — no project setup needed.
 
-4. **Ask a domain question.** The matching skill should auto-fire from its description, run the shared `fetch.sh` with its team's repo URL, clone that repo into `~/.cache/context-mesh/<team>/`, and cite specific files when answering. Try:
+4. **Ask a domain question.** The matching skill should auto-fire from its description, run the shared `fetch.sh` with its team's repo URL, clone that repo into `~/.cache/context-mesh/<repo-name>/`, and cite specific files when answering. Try:
 
    Payments:
    - *"What HTTP status do I get if I reuse an idempotency key with a different body?"* (expect: 409)
@@ -65,7 +65,7 @@ Four connected repos:
 acme-docs/                          ← the plugin
 ├── .claude-plugin/plugin.json
 ├── shared/
-│   ├── fetch.sh                    ← clone-or-pull: fetch.sh <cache-name> <repo-url>; prints the cache path
+│   ├── fetch.sh                    ← clone-or-pull: fetch.sh <repo-url>; caches under the repo name, prints the cache path
 │   └── instructions.md             ← how to read the cache and answer — common to every skill
 └── skills/
     ├── fetch-payments-docs/SKILL.md    ← description + fetch command with the team's repo URL
@@ -76,6 +76,10 @@ acme-docs/                          ← the plugin
 Each `SKILL.md` holds only what differs per team: its description (which drives discovery), its repo URL, and optional hints. Shared files are referenced via `${CLAUDE_PLUGIN_ROOT}`.
 
 To add another team (e.g., inventory), drop a `fetch-inventory-docs/SKILL.md` alongside the others.
+
+## Possible hardening
+
+This is a POC, so `fetch.sh` clones whatever URL it's given. A real setup would restrict it, e.g. only allow repos from the company's GitHub organisation.
 
 ## Addendum: background
 
