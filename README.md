@@ -4,13 +4,14 @@ A small Claude Code plugin marketplace that demonstrates the **fetch context ski
 
 ## What's in this POC
 
-Three connected repos:
+Four connected repos:
 
 | Repo | Role |
 |---|---|
 | this one — `poc-context-mesh-marketplace` | Marketplace + the `acme-docs` plugin (one fetch skill per team) |
 | [`poc-context-mesh-payments-docs`](https://github.com/asierba/poc-context-mesh-payments-docs) | Payments team's docs — fetched by `fetch-payments-docs` |
 | [`poc-context-mesh-checkout`](https://github.com/asierba/poc-context-mesh-checkout) | Checkout team's docs — fetched by `fetch-checkout-docs` |
+| [`poc-context-mesh-tech-standards`](https://github.com/asierba/poc-context-mesh-tech-standards) | Company-wide tech standards (architecture, security, engineering) — fetched by `fetch-tech-standards` |
 
 ## Try it
 
@@ -40,6 +41,14 @@ Three connected repos:
    - *"Which events does checkout emit?"* (expect: `order.placed` / `order.cancelled`)
    - *"Who's on call for checkout?"*
 
+   Tech standards (company-wide):
+   - *"Can I use MySQL for a new service?"* (expect: no — Hold, use Postgres)
+   - *"Where do secrets go and how often are DB credentials rotated?"* (expect: AWS Secrets Manager, 30 days)
+   - *"Can I put a customer's email in a Kafka event?"* (expect: Confidential — only to consumers with a documented need)
+
+   Cross-skill:
+   - *"Does checkout's stack comply with our tech radar?"*
+
    The skill is provided entirely by the installed plugin — no `.claude/` config in the working directory.
 
 ## What this validates
@@ -59,7 +68,8 @@ acme-docs/                          ← the plugin
     ├── fetch-payments-docs/
     │   ├── SKILL.md                ← description + agent instructions
     │   └── scripts/fetch.sh        ← clone-or-pull; CACHE_DIR is the single source of truth
-    └── fetch-checkout-docs/        ← same shape, different REPO_URL
+    ├── fetch-checkout-docs/        ← same shape, different REPO_URL
+    └── fetch-tech-standards/       ← same shape, company-wide repo
 ```
 
 To add another team (e.g., inventory), drop a `fetch-inventory-docs/` skill alongside the others. Same shape, different `REPO_URL`.
