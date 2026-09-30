@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="https://github.com/asierba/poc-context-mesh-checkout.git"
-CACHE_DIR="$HOME/.cache/context-mesh/checkout"
+if [ $# -ne 2 ]; then
+  echo "usage: fetch.sh <cache-name> <repo-url>" >&2
+  exit 64
+fi
+
+CACHE_NAME="$1"
+REPO_URL="$2"
+CACHE_DIR="$HOME/.cache/context-mesh/$CACHE_NAME"
 
 if [ -d "$CACHE_DIR/.git" ]; then
   git -C "$CACHE_DIR" pull --ff-only --quiet

@@ -29,7 +29,7 @@ Four connected repos:
 
 3. **Start a fresh session** in any directory — no project setup needed.
 
-4. **Ask a domain question.** The matching skill should auto-fire from its description, run its `scripts/fetch.sh`, clone the team's repo into `~/.cache/context-mesh/<team>/`, and cite specific files when answering. Try:
+4. **Ask a domain question.** The matching skill should auto-fire from its description, run the shared `fetch.sh` with its team's repo URL, clone that repo into `~/.cache/context-mesh/<team>/`, and cite specific files when answering. Try:
 
    Payments:
    - *"What HTTP status do I get if I reuse an idempotency key with a different body?"* (expect: 409)
@@ -64,15 +64,18 @@ Four connected repos:
 .claude-plugin/marketplace.json     ← marketplace manifest
 acme-docs/                          ← the plugin
 ├── .claude-plugin/plugin.json
+├── shared/
+│   ├── fetch.sh                    ← clone-or-pull: fetch.sh <cache-name> <repo-url>; prints the cache path
+│   └── instructions.md             ← how to read the cache and answer — common to every skill
 └── skills/
-    ├── fetch-payments-docs/
-    │   ├── SKILL.md                ← description + agent instructions
-    │   └── scripts/fetch.sh        ← clone-or-pull; CACHE_DIR is the single source of truth
-    ├── fetch-checkout-docs/        ← same shape, different REPO_URL
-    └── fetch-tech-standards/       ← same shape, company-wide repo
+    ├── fetch-payments-docs/SKILL.md    ← description + fetch command with the team's repo URL
+    ├── fetch-checkout-docs/SKILL.md
+    └── fetch-tech-standards/SKILL.md   ← company-wide repo
 ```
 
-To add another team (e.g., inventory), drop a `fetch-inventory-docs/` skill alongside the others. Same shape, different `REPO_URL`.
+Each `SKILL.md` holds only what differs per team: its description (which drives discovery), its repo URL, and optional hints. Shared files are referenced via `${CLAUDE_PLUGIN_ROOT}`.
+
+To add another team (e.g., inventory), drop a `fetch-inventory-docs/SKILL.md` alongside the others.
 
 ## Addendum: background
 
