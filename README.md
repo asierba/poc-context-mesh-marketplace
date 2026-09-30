@@ -37,9 +37,10 @@ Four connected repos:
    - *"Can I take payments in two different currencies for the same merchant?"*
 
    Checkout:
-   - *"What does checkout check before capturing payment?"* (expect: inventory)
-   - *"Which events does checkout emit?"* (expect: `order.placed` / `order.cancelled`)
-   - *"Who's on call for checkout?"*
+   - *"What does checkout check before capturing payment, and what happens if that service is down?"* (expect: inventory; fails closed with 503)
+   - *"Which events does checkout emit and who consumes them?"* (expect: `order.placed` / `order.cancelled`; fulfilment, inventory, notifications, analytics)
+   - *"What happens if checkout crashes after charging the card but before saving the order?"* (expect: orphan charge; idempotency key `chk_<cart_id>` prevents double charge; nightly reconciliation)
+   - *"The outbox lag alert is firing. What do I do?"* (expect: Sev2, `runbooks/outbox-backlog.md`, don't truncate the outbox)
 
    Tech standards (company-wide):
    - *"Can I use MySQL for a new service?"* (expect: no — Hold, use Postgres)
@@ -47,7 +48,11 @@ Four connected repos:
    - *"Can I put a customer's email in a Kafka event?"* (expect: Confidential — only to consumers with a documented need)
 
    Cross-skill:
-   - *"Does checkout's stack comply with our tech radar?"*
+   - *"Does checkout's stack comply with our tech radar?"* (expect: yes except Next.js — on Trial via ADR 0001)
+   - *"Does checkout follow the company's architecture principles? List any deviations."* (expect: 5 s payments timeout via exception ADR 0003; no circuit breaker; no `Idempotency-Key` header)
+   - *"Is it OK that checkout puts customer_email in order.placed?"* (expect: Confidential, allowed — notifications has a documented need)
+   - *"Does checkout handle every payments error code correctly?"* (expect: 402/409 not retried, 429 retried up to 3 times, matching payments' rules)
+   - *"Which of checkout's ADRs need action soon?"* (expect: ADR 0003 expires 2026-11-15; exception ADRs last 12 months)
 
    The skill is provided entirely by the installed plugin — no `.claude/` config in the working directory.
 

@@ -1,6 +1,6 @@
 ---
 name: fetch-checkout-docs
-description: Fetch the checkout team's docs and answer from them — the storefront's cart-to-confirmation flow, checkout-service architecture and stack, how it calls payments and inventory, order creation, and the order.placed / order.cancelled events.
+description: Fetch the checkout team's docs and code and answer from them — the storefront's cart-to-confirmation flow, checkout-service architecture and stack, its HTTP API and error codes, how it calls payments and inventory (timeouts, retries, idempotency), order states and data model, the order.placed / order.cancelled events and their consumers, SLOs and alerts, on-call and runbooks, ADRs, and known gaps.
 ---
 
 # fetch-checkout-docs
