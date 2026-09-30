@@ -26,13 +26,7 @@ Three connected repos:
    /plugin install acme-docs@acme
    ```
 
-3. **Clone the consumer** and start a fresh session inside it:
-
-   ```
-   git clone https://github.com/asierba/poc-context-mesh-checkout.git
-   cd poc-context-mesh-checkout
-   claude
-   ```
+3. **Start a fresh session** in any directory — no project setup needed.
 
 4. **Ask a payments-domain question.** The skill should auto-fire from its description, run `scripts/fetch.sh`, clone the producer repo into `~/.cache/context-mesh/payments-docs/`, and cite specific files when answering. Try:
 
@@ -40,7 +34,7 @@ Three connected repos:
    - *"What's a merchant currency lock?"*
    - *"Can I take payments in two different currencies for the same merchant?"*
 
-   The consumer repo itself contains **no `.claude/` config** — the skill is provided entirely by the installed plugin.
+   The skill is provided entirely by the installed plugin — no `.claude/` config in the working directory.
 
 ## What this validates
 
