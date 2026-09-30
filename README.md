@@ -10,8 +10,8 @@ This marketplace repo, plus one docs repo per team (and one company-wide), each 
 |---|---|
 | this one — `poc-context-mesh-marketplace` | Marketplace + the `acme-docs` plugin (one fetch skill per team) |
 | [`poc-context-mesh-payments-docs`](https://github.com/asierba/poc-context-mesh-payments-docs) | Payments team's docs — fetched by `fetch-payments-docs` |
-| [`poc-context-mesh-checkout`](https://github.com/asierba/poc-context-mesh-checkout) | Checkout team's docs — fetched by `fetch-checkout-docs` |
-| [`poc-context-mesh-tech-standards`](https://github.com/asierba/poc-context-mesh-tech-standards) | Company-wide tech standards (architecture, security, engineering) — fetched by `fetch-tech-standards` |
+| [`poc-context-mesh-checkout`](https://github.com/asierba/poc-context-mesh-checkout) | Checkout team's service — a small working app (code) plus its team docs — fetched by `fetch-checkout-docs` |
+| [`poc-context-mesh-tech-standards`](https://github.com/asierba/poc-context-mesh-tech-standards) | Company-wide tech standards (architecture, security, engineering), kept as an LLM wiki built from meeting transcripts — fetched by `fetch-tech-standards` |
 
 ```mermaid
 flowchart LR

@@ -7,3 +7,5 @@ description: Fetch the checkout team's docs and code and answer from them — th
 
 1. **Fetch.** Run `bash ${CLAUDE_PLUGIN_ROOT}/shared/fetch.sh https://github.com/asierba/poc-context-mesh-checkout.git` and capture the cache path it prints.
 2. **Answer.** Follow `${CLAUDE_PLUGIN_ROOT}/shared/instructions.md`.
+
+The repo is the checkout service itself — source code plus team docs. Docs in `docs/` explain intent and decisions; code in `src/` and `migrations/` shows actual behaviour. For behaviour questions, check the code, and call out any place where it doesn't match the docs.
