@@ -1,6 +1,6 @@
 # poc-context-mesh-marketplace
 
-A small Claude Code plugin marketplace that demonstrates the **fetch-context-skill** rung of the [context-mesh sharing pattern](https://github.com/asierba/ai-wiki/blob/main/outputs/context-mesh-sharing.md): producing teams keep their docs in their own repos, and a thin plugin distributes a per-team skill that *fetches* those docs into a local cache on demand.
+A small Claude Code plugin marketplace that demonstrates the **fetch context skill** approach to sharing AI-consumable context across teams: producing teams keep their docs in their own repos, and a thin plugin distributes a per-team skill that *fetches* those docs into a local cache on demand.
 
 ## What's in this POC
 
@@ -62,3 +62,16 @@ acme-docs/                          ← the plugin
 ```
 
 To add a second team (e.g., inventory), drop a `fetch-inventory-docs/` skill alongside `fetch-payments-docs/`. Same shape, different `REPO_URL`.
+
+## Addendum: background
+
+Teams that own a domain should own its docs, and choose which part of them other teams can see. The question is how that public surface reaches consuming teams' agents. Common options, roughly in order of capability:
+
+| Substrate | How context travels | Tradeoff |
+|---|---|---|
+| Monorepo filesystem | Direct reads of each team's `docs/` | Zero mechanics; breaks once teams split repos |
+| Git submodule | Consumers submodule a shared or per-team docs repo | No registry; manual updates, no versioning |
+| Plugin — **fetch context skill** *(this POC)* | Plugin ships a thin cloner; content stays in producer repos | Always fresh, no re-release on doc edits; not reproducible |
+| Plugin — bundled content | Plugin ships versioned doc snapshots | Reproducible, atomic releases; content moves at plugin cadence |
+
+This POC uses the **single plugin, one fetch skill per team** variant: one install gives access to every team, and adding a team means adding one more thin skill.
