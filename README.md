@@ -1,6 +1,6 @@
 # poc-context-mesh-marketplace
 
-A small Claude Code plugin marketplace that demonstrates the **fetch context skill** approach to sharing AI-consumable context across teams: producing teams keep their docs in their own repos, and a thin plugin distributes a per-team skill that *fetches* those docs into a local cache on demand.
+A small Claude Code plugin marketplace that demonstrates the **fetch context skill** approach to sharing AI-consumable context across teams: each team keeps its docs in its own repo, and a thin plugin distributes a per-team skill that *fetches* those docs into a local cache on demand.
 
 ## What's in this POC
 
@@ -8,9 +8,9 @@ Three connected repos:
 
 | Repo | Role |
 |---|---|
-| this one — `poc-context-mesh-marketplace` | Marketplace + the `acme-docs` plugin (one fetch skill per team — currently just `fetch-payments-docs`) |
-| [`poc-context-mesh-payments-docs`](https://github.com/asierba/poc-context-mesh-payments-docs) | Producer — Acme's payments team's public docs |
-| [`poc-context-mesh-checkout`](https://github.com/asierba/poc-context-mesh-checkout) | Consumer — a checkout-service that needs to call the payments API |
+| this one — `poc-context-mesh-marketplace` | Marketplace + the `acme-docs` plugin (one fetch skill per team) |
+| [`poc-context-mesh-payments-docs`](https://github.com/asierba/poc-context-mesh-payments-docs) | Payments team's docs — fetched by `fetch-payments-docs` |
+| [`poc-context-mesh-checkout`](https://github.com/asierba/poc-context-mesh-checkout) | Checkout team's docs — fetched by `fetch-checkout-docs` |
 
 ## Try it
 
@@ -28,19 +28,25 @@ Three connected repos:
 
 3. **Start a fresh session** in any directory — no project setup needed.
 
-4. **Ask a payments-domain question.** The skill should auto-fire from its description, run `scripts/fetch.sh`, clone the producer repo into `~/.cache/context-mesh/payments-docs/`, and cite specific files when answering. Try:
+4. **Ask a domain question.** The matching skill should auto-fire from its description, run its `scripts/fetch.sh`, clone the team's repo into `~/.cache/context-mesh/<team>/`, and cite specific files when answering. Try:
 
+   Payments:
    - *"What HTTP status do I get if I reuse an idempotency key with a different body?"* (expect: 409)
    - *"What's a merchant currency lock?"*
    - *"Can I take payments in two different currencies for the same merchant?"*
+
+   Checkout:
+   - *"What does checkout check before capturing payment?"* (expect: inventory)
+   - *"Which events does checkout emit?"* (expect: `order.placed` / `order.cancelled`)
+   - *"Who's on call for checkout?"*
 
    The skill is provided entirely by the installed plugin — no `.claude/` config in the working directory.
 
 ## What this validates
 
 - **Description-driven discovery.** The agent picks the skill from its description, not from a central index.
-- **On-demand fetch.** Docs stay in the producer repo; the plugin only ships a thin cloner.
-- **Decoupled publish cycle.** Doc edits land in the producer's repo with no plugin re-release. The plugin re-releases only when the fetch behaviour itself changes.
+- **On-demand fetch.** Docs stay in each team's repo; the plugin only ships a thin cloner.
+- **Decoupled publish cycle.** Doc edits land in the team's repo with no plugin re-release. The plugin re-releases only when the fetch behaviour itself changes.
 - **Cache reuse.** First invocation clones; subsequent invocations fast-forward.
 
 ## Layout
@@ -50,12 +56,13 @@ Three connected repos:
 acme-docs/                          ← the plugin
 ├── .claude-plugin/plugin.json
 └── skills/
-    └── fetch-payments-docs/
-        ├── SKILL.md                ← description + agent instructions
-        └── scripts/fetch.sh        ← clone-or-pull; CACHE_DIR is the single source of truth
+    ├── fetch-payments-docs/
+    │   ├── SKILL.md                ← description + agent instructions
+    │   └── scripts/fetch.sh        ← clone-or-pull; CACHE_DIR is the single source of truth
+    └── fetch-checkout-docs/        ← same shape, different REPO_URL
 ```
 
-To add a second team (e.g., inventory), drop a `fetch-inventory-docs/` skill alongside `fetch-payments-docs/`. Same shape, different `REPO_URL`.
+To add another team (e.g., inventory), drop a `fetch-inventory-docs/` skill alongside the others. Same shape, different `REPO_URL`.
 
 ## Addendum: background
 
