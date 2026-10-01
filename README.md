@@ -110,9 +110,15 @@ Each `SKILL.md` holds only what differs per team: its description (which drives 
 
 To add another team (e.g., inventory), drop a `fetch-inventory-docs/SKILL.md` alongside the others.
 
-## Possible hardening
+## Future improvements
 
-This is a POC, so `fetch.sh` clones whatever URL it's given. A real setup would restrict it, e.g. only allow repos from the company's GitHub organisation.
+This is a proof of concept. Things a real setup would add:
+
+- **Evals.** A set of questions with expected answers per team (like the ones in [Try it](#try-it)), run in CI whenever a skill description, the shared instructions, or a team's docs change. Catches skills that stop triggering, wrong skill choices, and answers that drift from the docs.
+- **Restrict what `fetch.sh` clones.** Today it clones whatever URL it's given; only allow repos from the company's GitHub organisation.
+- **Pin versions when reproducibility matters.** Fetch a tag or commit instead of the latest `main`, so answers can be traced to a known version of the docs.
+- **Docs freshness and drift checks.** Agents that flag docs contradicting the code, or team docs contradicting the tech standards — the mismatches the test sessions found by hand.
+- **Team-owned skill descriptions.** Let each team own its skill's description (it drives discovery) without going through the platform team.
 
 ## Addendum: background
 
