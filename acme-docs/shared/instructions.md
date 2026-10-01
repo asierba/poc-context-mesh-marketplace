@@ -4,7 +4,7 @@ You have just run `fetch.sh`, which printed the cache path. **Use that path** �
 
 ## Steps
 
-1. **Read.** Inspect the cache dir. Start with `README.md`, then read the specific files relevant to the user's question.
+1. **Navigate.** Start with the repo's entry point — `index.md` if there is one, otherwise `README.md`. Use it to pick the files relevant to the user's question, and open only those. Don't dump the whole repo into context; follow links or search (`grep`) when you need more.
 2. **Answer.** Cite specific files when referencing facts (e.g. `<cache>/README.md:line`). If the docs don't cover the question, say so — don't guess.
 
 ## Conventions
