@@ -17,4 +17,9 @@ else
   git clone --quiet -- "$REPO_URL" "$CACHE_DIR"
 fi
 
+# Windows only: convert path to its Windows equivalent (/c/... -> C:/...)
+if command -v cygpath >/dev/null; then
+  CACHE_DIR="$(cygpath -m "$CACHE_DIR")"
+fi
+
 echo "$CACHE_DIR"
